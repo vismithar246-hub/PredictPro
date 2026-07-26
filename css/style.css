@@ -5,5 +5,83 @@
 }
 
 body{
+
     font-family:Arial, Helvetica, sans-serif;
+
+    background:#041C32;
+
+    color:white;
+
+}
+
+.hero{
+
+    height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+}
+
+.hero h1{
+
+    font-size:70px;
+
+    color:#ECB365;
+
+    margin-bottom:20px;
+
+}
+
+.hero h2{
+
+    font-size:40px;
+
+    margin-bottom:20px;
+
+}
+
+.hero p{
+
+    font-size:22px;
+
+    color:#EAEAEA;
+
+    margin-bottom:40px;
+
+}
+
+button{
+
+    background:#ECB365;
+
+    color:#041C32;
+
+    padding:18px 40px;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+button:hover{
+
+    background:white;
+
+    transform:scale(1.05);
+
 }

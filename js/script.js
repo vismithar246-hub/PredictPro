@@ -1,1 +1,7 @@
-console.log("PredictPro Loaded Successfully 🚀");
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", function () {
+
+    alert("Welcome to PredictPro!");
+
+});
