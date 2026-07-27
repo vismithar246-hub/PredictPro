@@ -1,3 +1,22 @@
+// Actual match results (temporary demo data)
+const actualResults = {
+
+    "Brazil vs Argentina": {
+        home: 2,
+        away: 1
+    },
+
+    "France vs Spain": {
+        home: 3,
+        away: 2
+    },
+
+    "Germany vs Portugal": {
+        home: 1,
+        away: 1
+    }
+
+};
 // Hero button
 const startBtn = document.getElementById("startBtn");
 
@@ -67,11 +86,16 @@ const prediction = {
 
     away: awayTeam,
 
-    homeScore: home,
+    homeScore: Number(home),
 
-    awayScore: away
+    awayScore: Number(away),
+
+    status: "Pending",
+
+    points: 0
 
 };
+calculateResult(prediction);
 
 let predictions =
 JSON.parse(localStorage.getItem("predictions")) || [];
@@ -89,44 +113,55 @@ localStorage.setItem(
 loadPredictions();
 
 modal.style.display="none";
+document.getElementById("homeScore").value = "";
+document.getElementById("awayScore").value = "";
 
 });
 function loadPredictions(){
 
-    const container =
-    document.getElementById("predictionList");
+    const body = document.getElementById("predictionBody");
 
     const predictions =
-    JSON.parse(localStorage.getItem("predictions")) || [];
+        JSON.parse(localStorage.getItem("predictions")) || [];
 
-    if(predictions.length===0){
+    if(predictions.length === 0){
 
-        container.innerHTML="<p>No predictions yet.</p>";
+        body.innerHTML = `
+        <tr>
+            <td colspan="4">No predictions yet.</td>
+        </tr>
+        `;
 
         return;
-
     }
 
-    container.innerHTML="";
+    body.innerHTML = "";
 
-    predictions.forEach(function(match){
+    predictions.forEach(function(match,index){
 
-        container.innerHTML += `
+        body.innerHTML += `
+        <tr>
 
-        <div class="prediction-item">
+            <td>${match.home} vs ${match.away}</td>
 
-        <strong>${match.home}</strong>
+            <td>${match.homeScore} - ${match.awayScore}</td>
 
-        ${match.homeScore}
+            <td>${match.status}</td>
 
-        -
+<td>${match.points}</td>
 
-        ${match.awayScore}
+<td>
 
-        <strong>${match.away}</strong>
+<button class="deleteBtn"
+onclick="deletePrediction(${index})">
 
-        </div>
+Delete
 
+</button>
+
+</td>
+
+        </tr>
         `;
 
     });
@@ -134,3 +169,69 @@ function loadPredictions(){
 }
 
 loadPredictions();
+function deletePrediction(index){
+
+    let predictions =
+    JSON.parse(localStorage.getItem("predictions")) || [];
+
+    predictions.splice(index,1);
+
+    localStorage.setItem(
+        "predictions",
+        JSON.stringify(predictions)
+    );
+
+    loadPredictions();
+
+}
+function calculateResult(prediction){
+
+    const key = prediction.home + " vs " + prediction.away;
+
+    const actual = actualResults[key];
+
+    if(!actual){
+
+        prediction.status = "Pending";
+
+        prediction.points = 0;
+
+        return;
+    }
+
+    // Exact score
+    if(
+        prediction.homeScore === actual.home &&
+        prediction.awayScore === actual.away
+    ){
+
+        prediction.status = "🏆 Exact Match";
+
+        prediction.points = 5;
+
+        return;
+    }
+
+    // Winner calculation
+    const predictedWinner =
+        Math.sign(prediction.homeScore - prediction.awayScore);
+
+    const actualWinner =
+        Math.sign(actual.home - actual.away);
+
+    if(predictedWinner === actualWinner){
+
+        prediction.status = "✅ Correct Winner";
+
+        prediction.points = 2;
+
+    }
+    else{
+
+        prediction.status = "❌ Wrong Prediction";
+
+        prediction.points = 0;
+
+    }
+
+}

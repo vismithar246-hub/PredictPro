@@ -400,10 +400,42 @@ nav ul li a:hover{
 
 }
 .history{
-
     padding:80px;
-
     text-align:center;
+}
+
+.history h2{
+    color:#ECB365;
+    margin-bottom:40px;
+}
+
+#predictionTable{
+
+    width:80%;
+
+    margin:auto;
+
+    border-collapse:collapse;
+
+}
+
+#predictionTable th{
+
+    background:#ECB365;
+
+    color:#041C32;
+
+    padding:15px;
+
+}
+
+#predictionTable td{
+
+    background:#12304b;
+
+    padding:18px;
+
+    border-bottom:1px solid #234;
 
 }
 
